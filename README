@@ -1,0 +1,27 @@
+JohnnyCache
+===========
+
+Allows for a time_to_live option on cached ERB fragments by inserting a timestamp into the HTML.
+
+
+Example
+=======
+
+In a view:
+
+  <% cache("some_fragment", :time_to_live => 5.minutes) do -%>
+    This fragment was cached at <%= Time.now %> 
+    and will expire at: <%= 5.minutes.from_now %>
+  <% end %>
+
+Checking the cache in a controller:
+
+  # instead of: read_fragment("some_fragment"), try:
+  unless get_johnny_cache("some_fragment")
+    # make some expensive DB queries
+  end
+
+
+
+Copyright (c) 2008 Jason LaPier, released under the MIT license
+http://offtheline.net/rails_plugins
