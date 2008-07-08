@@ -3,6 +3,8 @@ JohnnyCache
 
 Allows for a time_to_live option on cached ERB fragments by inserting a timestamp into the HTML.
 
+Tested on Rails 2.0.2 and 2.1.0.
+
 
 Example
 =======
@@ -20,6 +22,15 @@ Checking the cache in a controller:
   unless get_johnny_cache("some_fragment")
     # make some expensive DB queries
   end
+
+Remember!
+=========
+
+If you want to play with caching and you're working in development mode, you need to enable caching. 
+Find the perform_caching line in environments/development.rb and change it to true:
+
+# config/environments/development.rb
+config.action_controller.perform_caching             = true
 
 
 
