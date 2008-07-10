@@ -35,4 +35,4 @@ config.action_controller.perform_caching             = true
 
 
 Copyright (c) 2008 Jason LaPier, released under the MIT license
-http://offtheline.net/rails_plugins
+http://offtheline.net/rails-plugins
