@@ -17,7 +17,7 @@ module ActionController::Caching::Fragments
       buffer.concat(cache)
     else
       pos = buffer.length
-      buffer.concat("<!-- EXPIRE CACHE: #{Time.now.to_i + options[:time_to_live]} -->\n") if options and options[:time_to_live]
+      buffer.concat("<!-- EXPIRE CACHE: #{Time.now.utc.to_i + options[:time_to_live]} -->\n") if options and options[:time_to_live]
       block.call
       write_fragment(name, buffer[pos..-1], options)
     end
@@ -29,7 +29,7 @@ module ActionController::Caching::Fragments
     
     if cache #and options and options[:time_to_live]
       m = cache.match( /(<!-- EXPIRE CACHE: )(\d+)( -->)/ )
-      if m.nil? or (m[2].to_i < Time.now.to_i)
+      if m.nil? or (m[2].to_i < Time.now.utc.to_i)
         expire_fragment(name)
         cache = nil
       end

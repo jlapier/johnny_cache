@@ -12,8 +12,8 @@ Example
 In a view:
 
   <% cache("some_fragment", :time_to_live => 5.minutes) do -%>
-    This fragment was cached at <%= Time.now %> 
-    and will expire at: <%= 5.minutes.from_now %>
+    This fragment was cached at <%= Time.now.utc.strftime "%H:%M:%S on %m/%d/%Y" %> 
+    and will expire at: <%= 5.minutes.from_now.utc.strftime "%H:%M:%S on %m/%d/%Y" %> (UTC)
   <% end %>
 
 Checking the cache in a controller:
