@@ -1,25 +1,17 @@
-module ActionView::Helpers::CacheHelper
-  # cache helper with optional options hash
-  def cache(name = {}, options = nil, &block)
-    @controller.cache_erb_fragment(block, name, options)
-  end
-end
-
-      
 module ActionController::Caching::Fragments
-  def cache_erb_fragment(block, name = {}, options = nil)
-    unless perform_caching then block.call; return end
-    
-    cache = get_johnny_cache(name)
-    buffer = eval(ActionView::Base.erb_variable, block.binding)
 
-    if cache
-      buffer.concat(cache)
+  def fragment_for(buffer, name = {}, options = nil, &block)
+    if perform_caching
+      if cache = get_johnny_cache(name)
+        buffer.concat(cache)
+      else
+        pos = buffer.length
+        buffer.concat("<!-- EXPIRE CACHE: #{Time.now.utc.to_i + options[:time_to_live]} -->\n") if options and options[:time_to_live]
+        block.call
+        write_fragment(name, buffer[pos..-1], options)
+      end
     else
-      pos = buffer.length
-      buffer.concat("<!-- EXPIRE CACHE: #{Time.now.utc.to_i + options[:time_to_live]} -->\n") if options and options[:time_to_live]
       block.call
-      write_fragment(name, buffer[pos..-1], options)
     end
   end
   
