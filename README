@@ -3,7 +3,7 @@ JohnnyCache
 
 Allows for a time_to_live option on cached ERB fragments by inserting a timestamp into the HTML.
 
-Tested on Rails 2.0.2, 2.1.0, 2.3.x.
+Current version only tested with Rails 2.3.5.
 
 
 Example
